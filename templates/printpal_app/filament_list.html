@@ -3,22 +3,29 @@
 {% block content %}
 <div class="page-headers">
     <h1>Filament list</h1>
+    <a href="{% url 'printpal_app:filament-create' %}" class="btn btn-primary">Add filament</a>
 </div>
 {% if object_list %}
     <ul class="list-group">
         {% for filament in object_list %}
-            <li>
-                {{ filament.color }} - 
-                
+            <li class="list-group-item">
+                {{ filament.color }}
+
                 {% for material in filament.material.all %}
                     {{ material.name }}{% if not forloop.last %}, {% endif %}
-                {% empty %}
-                    No materials
                 {% endfor %}
-                
-                - {{ filament.amount }}
-                <a href="{% url 'printpal_app:filament-edit' filament.pk %}">Edit</a>
-                <a href="{% url 'printpal_app:filament-delete' filament.pk %}">Delete</a>
+
+                <form action="{% url 'printpal_app:filament-amount' filament.pk %}" method="post">
+                    {% csrf_token %}
+                    
+                    <button name="action" value="decrease">➖</button>
+
+                    <input type="number" name="amount" value="{{ filament.amount }}">
+
+                    <button name="action" value="set">✔</button>
+
+                    <button name="action" value="increase">➕</button>
+                </form>
             </li>
         {% endfor %}
     </ul>

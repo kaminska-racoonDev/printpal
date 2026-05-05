@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-headers">
+    <h1>{{ brand.name }}</h1>
+    <div class="btn-box">
+        <a 
+            href="{% url 'printpal_app:brand-edit' brand.pk %}"
+            class="btn btn-primary"
+        >
+            Edit
+        </a>
+        <a 
+            href="{% url 'printpal_app:brand-delete' brand.pk %}"
+            class="btn btn-primary"
+        >
+            Delete
+        </a>
+    </div>
+</div>
+<div class="detail-main-body">
+    {% if brand.note %}
+        <p>Note:
+            <br/>
+            {{ brand.note }}
+        </p>
+    {% else %}
+        <p>No notes yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

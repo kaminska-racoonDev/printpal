@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-headers">
+    <h1>{{job.model_name}}</h1>
+    <a 
+        href="{% url 'printpal_app:printjob-edit' job.pk %}"
+        class="btn btn-primary"
+    >
+        Edit
+    </a>
+</div>
+<div class="detail-main-body">
+    <div class="print-job-data">
+        <p>Time: {{ job.time }} hrs</p>
+        <p>Filaments:</p>
+        <ul>
+            {% for filament in job.filament.all %}
+                <li>{{ filament.color }} ({{ filament.material }})</li>
+            {% endfor %}
+        </ul>
+        <p>Note:
+            <br/>
+            {{ job.note }}
+        </p>
+    </div>
+    <div class="printjob-img-wrap">
+        <img class="printjob-img" src="{{ job.image }}" alt="{{ job.model_name }}" />
+    </div>
+</div>
+{% endblock %}

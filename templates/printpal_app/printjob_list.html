@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-headers">
+    <h1>Print Job</h1>
+    <a href="{% url 'printpal_app:printjob-create' %}" class="btn btn-primary">New Print Job</a>
+</div>
+
+{% if object_list %}
+    <ul class="list-group">
+        {% for job in object_list %}
+            <li class="list-group-item">
+                <p><a href="{% url 'printpal_app:printjob-detail' job.pk %}">{{ job.model_name }}</a> - {{ job.time }} hrs</p>
+
+                {% if job.image %}
+                    <img src="{{ job.image }}" alt="{{ job.model_name }}" width="150">
+                {% endif %}
+
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+<p>No print jobs yet. <a href="{% url 'printpal_app:printjob-create' %}">Add new print job.</a></p>
+{% endif %}
+
+{% endblock %}

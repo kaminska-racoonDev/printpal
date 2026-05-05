@@ -13,7 +13,7 @@ class Printer(models.Model):
         REPAIR = "repair"
         OUT_OF_ORDER = "out of order"
 
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     model_name = models.CharField(max_length=255)
     status = models.CharField(
         max_length=50,
@@ -22,36 +22,42 @@ class Printer(models.Model):
     )
 
 
-class Material(models.Model):
-    name = models.CharField(max_length=70, unique=True)
+class Brand(models.Model):
+    name = models.CharField(max_length=150, unique=True)
+    note = models.TextField(blank=True)
 
     def __str__(self):
-        return f"{self.name}"
+        return self.name
 
 
 class Filament(models.Model):
-    # class FilamentStatus(models.TextChoices):
-    #     FULL = "full", "Full"
-    #     PARTIAL = "partial", "Partial"
-    #     LOW = "low", "Low"
-    #     EMPTY = "empty", "Empty"
     class WeightOpts(models.TextChoices):
         LIGHT = "0.75"
         REGULAR = "0.85"
         HEAVY = "3.0"
 
-    brand = models.CharField(max_length=100)
+    class MaterialOpts(models.TextChoices):
+        PLA = "PLA", "pla"
+        PETG = "PETG", "petg"
+        ABS = "ABS", "abs"
+        TPU = "TPU", "tpu"
+
+    brand = models.ForeignKey(
+        Brand,
+        on_delete=models.CASCADE,
+        related_name='filaments'
+    )
     weight = models.CharField(
         choices=WeightOpts.choices,
         default=WeightOpts.REGULAR)
     color = models.CharField(max_length=50, unique=True)
-    material = models.ManyToManyField(Material)
+    color_code = models.CharField(max_length=7, default="#ffffff")
+    material = models.CharField(
+        max_length=15,
+        choices=MaterialOpts.choices,
+        default=MaterialOpts.PLA
+    )
     amount = models.IntegerField(default=0)
-    # status = models.CharField(
-    #     max_length=10,
-    #     choices=FilamentStatus.choices,
-    #     default=FilamentStatus.FULL
-    # )
 
     def __str__(self):
         return f"{self.brand} {self.color} ({self.material})"
@@ -59,8 +65,10 @@ class Filament(models.Model):
 
 class PrintJob(models.Model):
     model_name = models.CharField(max_length=255)
-    time = models.IntegerField(default=0)  # Time in hours
+    time = models.FloatField(default=0)
     filament = models.ManyToManyField(Filament)
+    image = models.URLField(blank=True)
+    note = models.TextField(blank=True)
 
 
 class MyPrintPal(models.Model):

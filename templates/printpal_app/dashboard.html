@@ -2,7 +2,63 @@
 
 {% block content %}
 <div class="page-headers">
-    <h1>PrintPal</h1>
+    <h1>PrintPal Dashboard</h1>
 </div>
-HOME PAGE works :)
+<!-- 🖨️ PRINTERS -->
+<section>
+    <h2>Printers</h2>
+
+    <ul>
+        {% for printer in printers %}
+            <li>
+                {{ printer.name }} ({{ printer.model_name }})
+            </li>
+        {% empty %}
+            <li>No printers available</li>
+        {% endfor %}
+    </ul>
+     <a href="{% url 'printpal_app:printer-list' %}">See all printers</a>
+</section>
+
+<hr>
+<section>
+    <h2>Filament in Stock</h2>
+    <div>
+        <ul>
+            {% for filament in filaments_in_stock %}
+                <li>
+                    {{ filament.color }} — <strong>{{ filament.amount }}</strong>
+                </li>
+            {% empty %}
+                <li>No filament in stock</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <p>
+        <a href="{% url 'printpal_app:filament-list' %}">See all filaments</a>
+    </p>
+</section>
+
+<hr>
+
+<!-- 🧾 LATEST PRINT JOBS -->
+<section>
+    <h2>Latest Print Jobs</h2>
+
+    <ul>
+        {% for job in latest_printjobs %}
+            <li>
+                <strong>{{ job.model_name }}</strong> — {{ job.time }} hrs
+            </li>
+        {% empty %}
+            <li>No print jobs yet</li>
+        {% endfor %}
+    </ul>
+
+    <p>
+        <a href="{% url 'printpal_app:printjob-list' %}">See all print jobs</a>
+    </p>
+</section>
+
 {% endblock %}

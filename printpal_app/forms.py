@@ -1,5 +1,10 @@
 from django import forms
-from .models import Filament, Printer, Material
+from .models import (
+    Filament,
+    Printer,
+    Brand,
+    PrintJob
+)
 
 
 class FilamentForm(forms.ModelForm):
@@ -10,12 +15,13 @@ class FilamentForm(forms.ModelForm):
             'weight',
             'color',
             'material',
-            'amount'
+            'amount',
+            'color_code'
             # 'status'
         ]
-    # widgets {
-    #     'status'
-    # }
+        widgets = {
+            'color_code': forms.TextInput(attrs={'type': 'color'})
+        }
 
 
 class PrinterForm(forms.ModelForm):
@@ -28,9 +34,16 @@ class PrinterForm(forms.ModelForm):
         ]
 
 
-class MaterialForm(forms.ModelForm):
+class BrandForm(forms.ModelForm):
     class Meta:
-        model = Material
-        fields = [
-            'name'
-        ]
+        model = Brand
+        fields = "__all__"
+
+
+class PrintJobForm(forms.ModelForm):
+    class Meta:
+        model = PrintJob
+        fields = "__all__"
+        widgets = {
+            "filament": forms.CheckboxSelectMultiple(),
+        }
