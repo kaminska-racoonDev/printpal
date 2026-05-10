@@ -1,7 +1,17 @@
-<ul class="sidebar-nav list-group">
-  <li class="list-group-item"><a href="{% url 'printpal_app:dashboard' %}">Dashboard</a></li>
-  <li class="list-group-item"><a href="{% url 'printpal_app:filament-list' %}">Filament list</a></li>
-  <li class="list-group-item"><a href="{% url 'printpal_app:printjob-list' %}">Print jobs</a></li>
-  <li class="list-group-item"><a href="{% url 'printpal_app:brands-list' %}">Brands</a></li>
-  <li class="list-group-item"><a href="{% url 'printpal_app:printer-list' %}">My printers</a></li>
+<ul class="sidebar-nav list-group sidebar">
+  <li class="list-group-item">
+    <a class="sidebar-link" href="{% url 'printpal_app:dashboard' %}">Dashboard</a>
+  </li>
+  <li class="list-group-item">
+    <a class="sidebar-link" href="{% url 'printpal_app:filament-list' %}">Filament list</a>
+  </li>
+  <li class="list-group-item">
+    <a class="sidebar-link" href="{% url 'printpal_app:printjob-list' %}">Print jobs</a>
+  </li>
+  <li class="list-group-item">
+    <a class="sidebar-link" href="{% url 'printpal_app:brands-list' %}">Brands</a>
+  </li>
+  <li class="list-group-item">
+    <a class="sidebar-link" href="{% url 'printpal_app:printer-list' %}">My printers</a>
+  </li>
 </ul>

@@ -2,63 +2,71 @@
 
 {% block content %}
 <div class="page-headers">
-    <h1>PrintPal Dashboard</h1>
+    <h1 class="page-title">PrintPal Dashboard</h1>
 </div>
-<!-- 🖨️ PRINTERS -->
-<section>
-    <h2>Printers</h2>
-
-    <ul>
-        {% for printer in printers %}
-            <li>
-                {{ printer.name }} ({{ printer.model_name }})
-            </li>
-        {% empty %}
-            <li>No printers available</li>
-        {% endfor %}
-    </ul>
-     <a href="{% url 'printpal_app:printer-list' %}">See all printers</a>
-</section>
-
-<hr>
-<section>
-    <h2>Filament in Stock</h2>
+<section class="block-div dashboard-filament-block block-yellow">
+    <h2 class="section-title">Filaments to buy!</h2>
     <div>
         <ul>
             {% for filament in filaments_in_stock %}
                 <li>
-                    {{ filament.color }} — <strong>{{ filament.amount }}</strong>
+                    {{ filament.color }} (In stock: <strong>{{ filament.amount }}</strong>)
                 </li>
             {% empty %}
-                <li>No filament in stock</li>
+                <li>All good :)</li>
             {% endfor %}
         </ul>
     </div>
 
-    <p>
+    <p class="see-all-link">
         <a href="{% url 'printpal_app:filament-list' %}">See all filaments</a>
     </p>
 </section>
+<div class="dashboard-bottom-block">
+    <section class="block-div block-green">
+        <h2 class="section-title">Stats data</h2>
 
-<hr>
+        <ul>
+            <li>Filament spools in stock: {{ filament_amount }}</li>
+            <li>Print jobs done: {{ printjob_amount }}</li>
+        </ul>
 
-<!-- 🧾 LATEST PRINT JOBS -->
-<section>
-    <h2>Latest Print Jobs</h2>
+        <p class="see-all-link">
+            <a href="{% url 'printpal_app:printer-list' %}">
+                See all printers
+            </a>
+        </p>
+    </section>
+    <section class="block-div block-grey">
+        <h2 class="section-title">Latest Print Jobs</h2>
+        {% if latest_printjobs %}
+            <ul>
+                {% for printjob in latest_printjobs %}
+                    <li>
+                        <p>
+                            <a href="{% url 'printpal_app:printjob-detail' printjob.pk %}">
+                                {{ printjob.model_name }}
+                            </a>
 
-    <ul>
-        {% for job in latest_printjobs %}
-            <li>
-                <strong>{{ job.model_name }}</strong> — {{ job.time }} hrs
-            </li>
-        {% empty %}
-            <li>No print jobs yet</li>
-        {% endfor %}
-    </ul>
+                            {% if printjob.time != 0.0 %}
+                                — {{ printjob.time }} hrs
+                            {% endif %}
+                        </p>
+                        {% if printjob.note %}
+                            <div>Note: <br>
+                                {{ printjob.note }}</div>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No printjobs yet</p>
+        {% endif %}
 
-    <p>
-        <a href="{% url 'printpal_app:printjob-list' %}">See all print jobs</a>
-    </p>
-</section>
+        <p class="see-all-link">
+            <a href="{% url 'printpal_app:printjob-list' %}">See all print jobs</a>
+        </p>
+    </section>
+</div>
 
 {% endblock %}

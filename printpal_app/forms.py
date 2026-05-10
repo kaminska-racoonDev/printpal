@@ -16,7 +16,8 @@ class FilamentForm(forms.ModelForm):
             'color',
             'material',
             'amount',
-            'color_code'
+            'color_code',
+            'priority'
             # 'status'
         ]
         widgets = {

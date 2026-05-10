@@ -1,5 +1,6 @@
 from django.views import generic
 from django.urls import reverse_lazy
+from django.db.models import Sum
 from django.shortcuts import get_object_or_404, redirect
 from printpal_app.models import (
     Filament,
@@ -26,7 +27,11 @@ class Dashboard(generic.TemplateView):
 
         context["printers"] = Printer.objects.all()
 
-        context["filaments_in_stock"] = Filament.objects.all()
+        context["filaments_in_stock"] = Filament.objects.filter(amount__lt=2)
+        context["filament_amount"] = Filament.objects.aggregate(
+            total=Sum("amount")
+        )["total"] or 0
+        context["printjob_amount"] = PrintJob.objects.count()
 
         context["latest_printjobs"] = (
             PrintJob.objects.order_by("-id")[:3]

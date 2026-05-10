@@ -9,22 +9,20 @@
     <ul class="list-group">
         {% for filament in object_list %}
             <li class="list-group-item">
-                {{ filament.color }}
+                <a href="{% url 'printpal_app:filament-edit' filament.pk %}">{{ filament.color }}</a>
+                <span class="filament-color-blob" style="background-color: {{ filament.color_code }}"></span>
 
-                {% for material in filament.material.all %}
+                <!-- {% for material in filament.material %}
                     {{ material.name }}{% if not forloop.last %}, {% endif %}
-                {% endfor %}
+                {% endfor %} -->
+                {{ filament.material }}
 
-                <form action="{% url 'printpal_app:filament-amount' filament.pk %}" method="post">
+                <form class="amount-form" action="{% url 'printpal_app:filament-amount' filament.pk %}" method="post">
                     {% csrf_token %}
-                    
-                    <button name="action" value="decrease">➖</button>
-
-                    <input type="number" name="amount" value="{{ filament.amount }}">
-
-                    <button name="action" value="set">✔</button>
-
-                    <button name="action" value="increase">➕</button>
+                    <button class="btn btn-light" name="action" value="decrease">➖</button>
+                    <input class="form-control filament-amount-input" type="number" name="amount" value="{{ filament.amount }}">
+                    <button class="btn btn-light" name="action" value="set">✔</button>
+                    <button class="btn btn-light" name="action" value="increase">➕</button>
                 </form>
             </li>
         {% endfor %}

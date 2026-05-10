@@ -58,6 +58,7 @@ class Filament(models.Model):
         default=MaterialOpts.PLA
     )
     amount = models.IntegerField(default=0)
+    priority = models.IntegerField(blank=True, default=1)
 
     def __str__(self):
         return f"{self.brand} {self.color} ({self.material})"
