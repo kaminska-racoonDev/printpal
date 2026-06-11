@@ -3,7 +3,7 @@ from .models import (
     Filament,
     Printer,
     Brand,
-    PrintJob
+    PrintJob,
 )
 
 
@@ -39,6 +39,7 @@ class BrandForm(forms.ModelForm):
     class Meta:
         model = Brand
         fields = "__all__"
+        exclude = ["user"]
 
 
 class PrintJobForm(forms.ModelForm):
@@ -48,3 +49,15 @@ class PrintJobForm(forms.ModelForm):
         widgets = {
             "filament": forms.CheckboxSelectMultiple(),
         }
+        exclude = ["user"]
+
+
+# class SignupForm(forms.ModelForm):
+#     class Meta:
+#         model = PrintUser
+#         fields = [
+#             "username",
+#             "email",
+#             "password1",
+#             "password2",
+#         ]

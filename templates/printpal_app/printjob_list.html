@@ -3,7 +3,7 @@
 {% block content %}
 <div class="page-headers">
     <h1>Print Job</h1>
-    <a href="{% url 'printpal_app:printjob-create' %}" class="btn btn-primary">New Print Job</a>
+    <a href="{% url 'printpal_app:printjob-create' %}" class="printjob-btn">New Print Job</a>
 </div>
 
 {% if object_list %}
@@ -20,7 +20,7 @@
         {% endfor %}
     </ul>
 {% else %}
-<p>No print jobs yet. <a href="{% url 'printpal_app:printjob-create' %}">Add new print job.</a></p>
+<p>No print jobs yet. <a class="printjob-link" href="{% url 'printpal_app:printjob-create' %}">Add new print job.</a></p>
 {% endif %}
 
 {% endblock %}

@@ -3,11 +3,13 @@ from django.contrib.auth.models import AbstractUser
 
 
 class PrintUser(AbstractUser):
-    codename = models.CharField(max_length=150, unique=True, default="temp")
+    username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
 
 
 class Printer(models.Model):
+    user = models.ForeignKey(PrintUser, on_delete=models.CASCADE)
+
     class PrinterStatus(models.TextChoices):
         IN_WORK = "in work"
         REPAIR = "repair"
@@ -23,6 +25,7 @@ class Printer(models.Model):
 
 
 class Brand(models.Model):
+    user = models.ForeignKey(PrintUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=150, unique=True)
     note = models.TextField(blank=True)
 
@@ -31,6 +34,8 @@ class Brand(models.Model):
 
 
 class Filament(models.Model):
+    user = models.ForeignKey(PrintUser, on_delete=models.CASCADE)
+
     class WeightOpts(models.TextChoices):
         LIGHT = "0.75"
         REGULAR = "0.85"
@@ -65,6 +70,8 @@ class Filament(models.Model):
 
 
 class PrintJob(models.Model):
+    user = models.ForeignKey(PrintUser, on_delete=models.CASCADE)
+
     model_name = models.CharField(max_length=255)
     time = models.FloatField(default=0)
     filament = models.ManyToManyField(Filament)
@@ -73,13 +80,14 @@ class PrintJob(models.Model):
 
 
 class MyPrintPal(models.Model):
-    user = models.OneToOneField(PrintUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(PrintUser, on_delete=models.CASCADE)
+
     pal_name = models.CharField(max_length=255)
     pal_animal = models.CharField(
         choices=[
-            ("dog", "Dog"),
+            ("patchy dog", "Patchy Dog"),
+            ("white dog", "White Dog"),
             ("cat", "Cat"),
-            ("racoon", "Racoon"),
-            ("rabbit", "Rabbit"),],
+            ("racoon", "Racoon"),],
         default="racoon"
     )

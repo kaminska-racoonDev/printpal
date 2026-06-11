@@ -2,15 +2,16 @@ from django.views import generic
 from django.urls import reverse_lazy
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404, redirect
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from printpal_app.models import (
     Filament,
-    # Material,
     Printer,
-    PrintUser,
     PrintJob,
-    MyPrintPal,
     Brand
 )
+
 from printpal_app.forms import (
     FilamentForm,
     PrinterForm,
@@ -19,54 +20,80 @@ from printpal_app.forms import (
 )
 
 
-class Dashboard(generic.TemplateView):
+# * DASHBOARD
+
+class Dashboard(LoginRequiredMixin, generic.TemplateView):
     template_name = 'printpal_app/dashboard.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context["printers"] = Printer.objects.all()
+        user = self.request.user
 
-        context["filaments_in_stock"] = Filament.objects.filter(amount__lt=2)
-        context["filament_amount"] = Filament.objects.aggregate(
-            total=Sum("amount")
-        )["total"] or 0
-        context["printjob_amount"] = PrintJob.objects.count()
+        context["printers"] = Printer.objects.filter(user=user)
+
+        context["filaments_in_stock"] = Filament.objects.filter(
+            user=user,
+            amount__lt=2
+        )
+
+        context["filament_amount"] = Filament.objects.filter(
+            user=user
+        ).aggregate(total=Sum("amount"))["total"] or 0
+
+        context["printjob_amount"] = PrintJob.objects.filter(
+            user=user
+        ).count()
 
         context["latest_printjobs"] = (
-            PrintJob.objects.order_by("-id")[:3]
+            PrintJob.objects.filter(user=user)
+            .order_by("-id")[:3]
         )
 
         return context
 
+# * FILAMENTS
 
-class FilamentsListView(generic.ListView):
+
+class FilamentsListView(LoginRequiredMixin, generic.ListView):
     model = Filament
-    paginate_by = 6
-    # ordering = ['-created_at']
     template_name = 'printpal_app/filament_list.html'
+    paginate_by = 6
+
+    def get_queryset(self):
+        return Filament.objects.filter(user=self.request.user)
 
 
-class FilamentsCreateView(generic.CreateView):
+class FilamentsCreateView(LoginRequiredMixin, generic.CreateView):
     model = Filament
     form_class = FilamentForm
     success_url = reverse_lazy('printpal_app:filament-list')
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
-class FilamentsDeleteView(generic.DeleteView):
-    model = Filament
-    success_url = reverse_lazy('printpal:dashboard.html')
 
-
-class FilamentsEditView(generic.UpdateView):
+class FilamentsEditView(LoginRequiredMixin, generic.UpdateView):
     model = Filament
     form_class = FilamentForm
     success_url = reverse_lazy('printpal_app:filament-list')
 
+    def get_queryset(self):
+        return Filament.objects.filter(user=self.request.user)
 
-class FilamentAmountUpdateView(generic.View):
+
+class FilamentsDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Filament
+    success_url = reverse_lazy('printpal_app:filament-list')
+
+    def get_queryset(self):
+        return Filament.objects.filter(user=self.request.user)
+
+
+class FilamentAmountUpdateView(LoginRequiredMixin, generic.View):
     def post(self, request, pk):
-        filament = get_object_or_404(Filament, pk=pk)
+        filament = get_object_or_404(Filament, pk=pk, user=request.user)
         action = request.POST.get("action")
 
         if action == "increase":
@@ -84,104 +111,128 @@ class FilamentAmountUpdateView(generic.View):
         return redirect('printpal_app:filament-list')
 
 
-# Printer
+# * PRINTERS
 
-
-class PrinterListView(generic.ListView):
+class PrinterListView(LoginRequiredMixin, generic.ListView):
     model = Printer
     template_name = 'printpal_app/printer_list.html'
 
+    def get_queryset(self):
+        return Printer.objects.filter(user=self.request.user)
 
-class PrinterCreateView(generic.CreateView):
+
+class PrinterCreateView(LoginRequiredMixin, generic.CreateView):
     model = Printer
     form_class = PrinterForm
     success_url = reverse_lazy('printpal_app:printer-list')
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
-class PrinterUpdateView(generic.UpdateView):
+
+class PrinterUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Printer
     form_class = PrinterForm
     success_url = reverse_lazy('printpal_app:printer-list')
 
+    def get_queryset(self):
+        return Printer.objects.filter(user=self.request.user)
 
-class PrinterDeleteView(generic.DeleteView):
+
+class PrinterDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Printer
     success_url = reverse_lazy('printpal_app:printer-list')
 
-# Material
+    def get_queryset(self):
+        return Printer.objects.filter(user=self.request.user)
 
 
-# class MaterialListView(generic.ListView):
-#     model = Material
-#     template_name = 'printpal/material_list.html'
+# * PRINT JOBS
 
-
-# class MaterialCreateView(generic.CreateView):
-#     model = Material
-#     form_class = MaterialForm
-#     success_url = reverse_lazy('printpal_app:filament-list')
-
-
-# class MaterialEditView(generic.UpdateView):
-#     model = Material
-#     form_class = MaterialForm
-#     success_url = reverse_lazy('printpal_app:filament-list')
-
-# Print job
-
-
-class PrintJobListView(generic.ListView):
+class PrintJobListView(LoginRequiredMixin, generic.ListView):
     model = PrintJob
     template_name = 'printpal/printjob_list.html'
 
+    def get_queryset(self):
+        return PrintJob.objects.filter(user=self.request.user)
 
-class PrintJobDetailView(generic.DetailView):
+
+class PrintJobDetailView(LoginRequiredMixin, generic.DetailView):
     model = PrintJob
     context_object_name = "job"
-    # template_name = 'printpal/printjob_detail.html'
+
+    def get_queryset(self):
+        return PrintJob.objects.filter(user=self.request.user)
 
 
-class PrintJobCreateView(generic.CreateView):
+class PrintJobCreateView(LoginRequiredMixin, generic.CreateView):
     model = PrintJob
     form_class = PrintJobForm
     success_url = reverse_lazy('printpal_app:printjob-list')
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
-class PrintJobUpdateView(generic.UpdateView):
+
+class PrintJobUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = PrintJob
     form_class = PrintJobForm
     success_url = reverse_lazy('printpal_app:printjob-list')
 
+    def get_queryset(self):
+        return PrintJob.objects.filter(user=self.request.user)
 
-class PrintJobDeleteView(generic.DeleteView):
+
+class PrintJobDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = PrintJob
     success_url = reverse_lazy('printpal_app:printjob-list')
 
-# Brand
+    def get_queryset(self):
+        return PrintJob.objects.filter(user=self.request.user)
 
 
-class BrandListView(generic.ListView):
+# * BRAND
+
+class BrandListView(LoginRequiredMixin, generic.ListView):
     model = Brand
     template_name = "printpal_app/brand_list.html"
 
+    def get_queryset(self):
+        return Brand.objects.filter(user=self.request.user)
 
-class BrandDetailView(generic.DetailView):
+
+class BrandDetailView(LoginRequiredMixin, generic.DetailView):
     model = Brand
     template_name = "printpal_app/brand_detail.html"
 
+    def get_queryset(self):
+        return Brand.objects.filter(user=self.request.user)
 
-class BrandCreateView(generic.CreateView):
+
+class BrandCreateView(LoginRequiredMixin, generic.CreateView):
     model = Brand
     form_class = BrandForm
     success_url = reverse_lazy('printpal_app:brands-list')
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
-class BrandUpdateView(generic.UpdateView):
+
+class BrandUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Brand
     form_class = BrandForm
     success_url = reverse_lazy('printpal_app:brands-list')
 
+    def get_queryset(self):
+        return Brand.objects.filter(user=self.request.user)
 
-class BrandDeleteView(generic.DeleteView):
+
+class BrandDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Brand
     success_url = reverse_lazy('printpal_app:brands-list')
+
+    def get_queryset(self):
+        return Brand.objects.filter(user=self.request.user)

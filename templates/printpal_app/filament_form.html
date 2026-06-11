@@ -7,6 +7,7 @@
         {% csrf_token %}
         {{ form|crispy }}
 
-        <input type="submit" value="Submit" class="btn btn-primary">
+        <input type="submit" value="Submit" class="btn-black-bg">
+        <a href="{% url 'printpal_app:filament-delete' filament.pk%}" class="btn-black-bg">Delete</a>
     </form>
 {% endblock %}

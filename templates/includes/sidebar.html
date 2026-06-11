@@ -1,17 +1,64 @@
 <ul class="sidebar-nav list-group sidebar">
+
   <li class="list-group-item">
-    <a class="sidebar-link" href="{% url 'printpal_app:dashboard' %}">Dashboard</a>
+    {% if user.is_authenticated %}
+      <p class="greetings">Hello, {{ user.username }}!</p>
+
+      <ul class="list-unstyled mt-2 auth-list">
+        <li>
+          <form action="{% url 'account_logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">
+              Logout
+            </button>
+          </form>
+        </li>
+      </ul>
+
+    {% else %}
+      <ul class="list-unstyled auth-list">
+        <li>
+          <a class="sidebar-link" href="{% url 'account_login' %}">
+            Login
+          </a>
+        </li>
+        <li>
+          <a class="sidebar-link" href="{% url 'account_signup' %}">
+            Register
+          </a>
+        </li>
+      </ul>
+    {% endif %}
   </li>
+
   <li class="list-group-item">
-    <a class="sidebar-link" href="{% url 'printpal_app:filament-list' %}">Filament list</a>
+    <a class="sidebar-link" href="{% url 'printpal_app:dashboard' %}">
+      Dashboard
+    </a>
   </li>
+
   <li class="list-group-item">
-    <a class="sidebar-link" href="{% url 'printpal_app:printjob-list' %}">Print jobs</a>
+    <a class="sidebar-link" href="{% url 'printpal_app:filament-list' %}">
+      Filament list
+    </a>
   </li>
+
   <li class="list-group-item">
-    <a class="sidebar-link" href="{% url 'printpal_app:brands-list' %}">Brands</a>
+    <a class="sidebar-link" href="{% url 'printpal_app:printjob-list' %}">
+      Print jobs
+    </a>
   </li>
+
   <li class="list-group-item">
-    <a class="sidebar-link" href="{% url 'printpal_app:printer-list' %}">My printers</a>
+    <a class="sidebar-link" href="{% url 'printpal_app:brands-list' %}">
+      Brands
+    </a>
   </li>
+
+  <li class="list-group-item">
+    <a class="sidebar-link" href="{% url 'printpal_app:printer-list' %}">
+      My printers
+    </a>
+  </li>
+
 </ul>

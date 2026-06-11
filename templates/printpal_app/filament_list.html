@@ -3,31 +3,28 @@
 {% block content %}
 <div class="page-headers">
     <h1>Filament list</h1>
-    <a href="{% url 'printpal_app:filament-create' %}" class="btn btn-primary">Add filament</a>
+    <a href="{% url 'printpal_app:filament-create' %}" class="filament-btn">Add filament</a>
 </div>
 {% if object_list %}
-    <ul class="list-group">
+    <ul class="filament-list">
         {% for filament in object_list %}
-            <li class="list-group-item">
-                <a href="{% url 'printpal_app:filament-edit' filament.pk %}">{{ filament.color }}</a>
-                <span class="filament-color-blob" style="background-color: {{ filament.color_code }}"></span>
-
-                <!-- {% for material in filament.material %}
-                    {{ material.name }}{% if not forloop.last %}, {% endif %}
-                {% endfor %} -->
-                {{ filament.material }}
-
+            <li class="filament-item">
+                <div class="text-block-filament">
+                    <a href="{% url 'printpal_app:filament-edit' filament.pk %}" class="filament-link">{{ filament.color }}</a>
+                    <span class="filament-color-blob" style="background-color: {{ filament.color_code }}"></span>
+                    {{ filament.material }}
+                </div>
                 <form class="amount-form" action="{% url 'printpal_app:filament-amount' filament.pk %}" method="post">
                     {% csrf_token %}
-                    <button class="btn btn-light" name="action" value="decrease">➖</button>
+                    <button class="filament-btn filament-switch-btn" name="action" value="decrease">➖</button>
                     <input class="form-control filament-amount-input" type="number" name="amount" value="{{ filament.amount }}">
-                    <button class="btn btn-light" name="action" value="set">✔</button>
-                    <button class="btn btn-light" name="action" value="increase">➕</button>
+                    <button class="filament-btn filament-switch-btn" name="action" value="set">✔</button>
+                    <button class="filament-btn filament-switch-btn" name="action" value="increase">➕</button>
                 </form>
             </li>
         {% endfor %}
     </ul>
 {% else %}
-<p>No filaments yet. <a href="{% url 'printpal_app:filament-create' %}">Add new filament.</a></p>
+<p>No filaments yet. <a class="filament-link" href="{% url 'printpal_app:filament-create' %}">Add new filament.</a></p>
 {% endif %}
 {% endblock %}

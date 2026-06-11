@@ -4,7 +4,7 @@
 
 <div class="page-headers">
     <h1>My Printers</h1>
-    <a href="{% url 'printpal_app:printer-create' %}" class="btn btn-primary">Add printer</a>
+    <a href="{% url 'printpal_app:printer-create' %}" class="printer-btn">Add printer</a>
 </div>
 {% if object_list %}
     <ul class="list-group printer-list">
@@ -19,6 +19,6 @@
         {% endfor %}
     </ul>
 {% else %}
-<p>No printers yet. <a href="{% url 'printpal_app:printer-create' %}">Add new printer.</a></p>
+<p>No printers yet. <a href="{% url 'printpal_app:printer-create' %}" class="printer-link">Add new printer.</a></p>
 {% endif %}
 {% endblock %}
