@@ -1,31 +1,79 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
 <div class="page-headers">
-    <h1>{{job.model_name}}</h1>
-    <a 
-        href="{% url 'printpal_app:printjob-edit' job.pk %}"
-        class="btn btn-primary"
-    >
-        Edit
-    </a>
-</div>
-<div class="detail-main-body">
-    <div class="print-job-data">
-        <p>Time: {{ job.time }} hrs</p>
-        <p>Filaments:</p>
-        <ul>
-            {% for filament in job.filament.all %}
-                <li>{{ filament.color }} ({{ filament.material }})</li>
-            {% endfor %}
-        </ul>
-        <p>Note:
-            <br/>
-            {{ job.note }}
-        </p>
+    <h1>{{ job.model_name }}</h1>
+
+    <div class="action-block">
+        <a
+            href="{% url 'printpal_app:printjob-edit' job.pk %}"
+            class="btn-black-bg btn"
+        >
+            Edit
+        </a>
+        <a
+            href="{% url 'printpal_app:printjob-delete' job.pk %}"
+            class="btn-black-bg btn"
+        >
+            Delete
+        </a>
     </div>
-    <div class="printjob-img-wrap">
-        <img class="printjob-img" src="{{ job.image }}" alt="{{ job.model_name }}" />
-    </div>
+    
 </div>
+
+<div class="detail-layout">
+
+    <div class="detail-card">
+        <div class="detail-row">
+            <span class="detail-label">Time</span>
+            <span>{{ job.time }} hrs</span>
+        </div>
+
+        <div class="detail-row detail-filaments">
+            <span class="detail-label">Filaments</span>
+
+            {% if job.filament.all %}
+                <ul class="filament-list">
+                    {% for filament in job.filament.all %}
+                        <li>
+                            {{ filament.color }}
+                            ({{ filament.material }})
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No filaments assigned</p>
+            {% endif %}
+        </div>
+
+        <div class="detail-row note-row">
+            <span class="detail-label">Note</span>
+
+            <div class="note-content">
+                {% if job.note %}
+                    {{ job.note }}
+                {% else %}
+                    No notes added.
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="image-card">
+        {% if job.image %}
+            <img
+                class="printjob-img" 
+                src="{{ job.image }}" 
+                alt="{{ job.model_name }}" 
+            />
+        {% else %}
+            <div class="image-placeholder">
+                No image
+            </div>
+        {% endif %}
+    </div>
+
+</div>
+
 {% endblock %}

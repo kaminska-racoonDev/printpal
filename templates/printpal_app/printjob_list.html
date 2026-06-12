@@ -1,26 +1,67 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
 <div class="page-headers">
-    <h1>Print Job</h1>
-    <a href="{% url 'printpal_app:printjob-create' %}" class="printjob-btn">New Print Job</a>
+    <h1>Print Jobs</h1>
+    <a href="{% url 'printpal_app:printjob-create' %}" class="printjob-btn">
+        New Print Job
+    </a>
 </div>
 
 {% if object_list %}
-    <ul class="list-group">
-        {% for job in object_list %}
-            <li class="list-group-item">
-                <p><a href="{% url 'printpal_app:printjob-detail' job.pk %}">{{ job.model_name }}</a> - {{ job.time }} hrs</p>
+    <div class="table-container">
+        <table class="printjob-table">
+            <thead>
+                <tr>
+                    <th>Preview</th>
+                    <th>Model Name</th>
+                    <th>Time</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-                {% if job.image %}
-                    <img src="{{ job.image }}" alt="{{ job.model_name }}" width="150">
-                {% endif %}
+            <tbody>
+                {% for job in object_list %}
+                    <tr>
+                        <td>
+                            {% if job.image %}
+                                <img 
+                                    src="{{ job.image }}" 
+                                    alt="{{ job.model_name }}"
+                                    class="printjob-preview"
+                                >
+                            {% else %}
+                                No image
+                            {% endif %}
+                        </td>
 
-            </li>
-        {% endfor %}
-    </ul>
+                        <td>
+                            <a class="printjob-link" href="{% url 'printpal_app:printjob-detail' job.pk %}">
+                                {{ job.model_name }}
+                            </a>
+                        </td>
+
+                        <td>{{ job.time }} hrs</td>
+
+                        <td>
+                            <a class="printjob-link" href="{% url 'printpal_app:printjob-detail' job.pk %}">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 {% else %}
-<p>No print jobs yet. <a class="printjob-link" href="{% url 'printpal_app:printjob-create' %}">Add new print job.</a></p>
+    <p>
+        No print jobs yet.
+        <a class="printjob-link" href="{% url 'printpal_app:printjob-create' %}">
+            Add new print job.
+        </a>
+    </p>
 {% endif %}
 
 {% endblock %}
