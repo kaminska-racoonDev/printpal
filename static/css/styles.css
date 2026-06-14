@@ -640,3 +640,7 @@ input[type="submit"]:hover .btn-black-bg,
     gap: 20px;
     align-items: center;
 }
+
+textarea.form-control {
+    height: 60px;
+}

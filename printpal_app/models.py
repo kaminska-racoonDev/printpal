@@ -55,7 +55,7 @@ class Filament(models.Model):
     weight = models.CharField(
         choices=WeightOpts.choices,
         default=WeightOpts.REGULAR)
-    color = models.CharField(max_length=50, unique=True)
+    color = models.CharField(max_length=50)
     color_code = models.CharField(max_length=7, default="#ffffff")
     material = models.CharField(
         max_length=15,
