@@ -11,9 +11,9 @@ class Printer(models.Model):
     user = models.ForeignKey(PrintUser, on_delete=models.CASCADE)
 
     class PrinterStatus(models.TextChoices):
-        IN_WORK = "in work"
-        REPAIR = "repair"
-        OUT_OF_ORDER = "out of order"
+        IN_WORK = "In work"
+        REPAIR = "Repair"
+        OUT_OF_ORDER = "Out of order"
 
     name = models.CharField(max_length=255, unique=True)
     model_name = models.CharField(max_length=255)
@@ -26,7 +26,7 @@ class Printer(models.Model):
 
 class Brand(models.Model):
     user = models.ForeignKey(PrintUser, on_delete=models.CASCADE)
-    name = models.CharField(max_length=150, unique=True)
+    name = models.CharField(max_length=150)
     note = models.TextField(blank=True)
 
     def __str__(self):
@@ -37,9 +37,9 @@ class Filament(models.Model):
     user = models.ForeignKey(PrintUser, on_delete=models.CASCADE)
 
     class WeightOpts(models.TextChoices):
-        LIGHT = "0.75"
-        REGULAR = "0.85"
-        HEAVY = "3.0"
+        LIGHT = "0.75", "0.75 kg"
+        REGULAR = "0.85", "0.85 kg"
+        HEAVY = "3.0",  "3.0 kg"
 
     class MaterialOpts(models.TextChoices):
         PLA = "PLA", "pla"

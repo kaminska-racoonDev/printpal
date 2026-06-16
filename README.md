@@ -1,4 +1,4 @@
-![Logo of the project](https://raw.githubusercontent.com/kaminska-racoonDev/printpal/main/logo.png)
+![Logo of the project](https://raw.githubusercontent.com/kaminska-racoonDev/printpal/develop/logo.png)
 
 # Printpal
 >> Project is still in development. More features to be added.

@@ -263,4 +263,14 @@ poetry.toml
 # LSP config files
 pyrightconfig.json
 
+# Python cache
+__pycache__/
+*.py[cod]
+printpal_app/__pycache__
+tests/__pycache__
+
+# SQLite database
+*.sqlite3
+db.sqlite3
+
 # End of https://www.toptal.com/developers/gitignore/api/django,python
