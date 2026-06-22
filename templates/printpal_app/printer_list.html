@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page-headers">
+    <h1>My Printers</h1>
+    <a href="{% url 'printpal_app:printer-create' %}" class="printer-btn">
+        Add printer
+    </a>
+</div>
+
+{% if object_list %}
+    <div class="table-container">
+        <table class="printer-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Model</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for printer in object_list %}
+                    <tr>
+                        <td>{{ printer.name }}</td>
+                        <td>{{ printer.model_name }}</td>
+                        <td>{{ printer.status }}</td>
+                        <td class="printer-actions">
+                            <a class="printer-link" href="{% url 'printpal_app:printer-edit' printer.pk %}">
+                                Edit
+                            </a>
+                            <a class="printer-link" href="{% url 'printpal_app:printer-delete' printer.pk %}">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <p>
+        No printers yet.
+        <a href="{% url 'printpal_app:printer-create' %}" class="printer-link">
+            Add new printer.
+        </a>
+    </p>
+{% endif %}
+
+{% endblock %}

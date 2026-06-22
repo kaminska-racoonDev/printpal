@@ -1,0 +1,646 @@
+:root {
+    --primary-bg: #1a1a1a;
+    --text-color-dark: #1a1a1a;
+    --color-black: #151515;
+    --text-color-light: #E1A161;
+    --color-red: #A74E46;
+    --color-red-shadow: #77312b;
+    --color-yellow: #E1A161;
+    --color-green: #658963;
+    --color-grey: #969696;
+    --color-hover: #F5E6D3;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+dl,
+dd {
+    margin: 0;
+    padding: 0;
+}
+
+input,
+textarea,
+select,
+button {
+    font: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    background: transparent;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 20px;
+    background-color: var(--primary-bg);
+    color: var(--text-color-light);
+    /* font-family: "Press Start 2P", system-ui; */
+    font-family: "Handjet", system-ui;
+}
+
+a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+h1,
+h2,
+h3 {
+    font-family: "Press Start 2P", system-ui;
+}
+
+h1 {
+    color: var(--color-red);
+    font-size: 32px;
+}
+
+.page-headers {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.detail-main-body {
+    display: flex;
+    align-items: center;
+}
+
+.printjob-img {
+    width: 450px;
+}
+
+.printer-list {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+    /* justify-content: space-between; */
+}
+
+.printer-item-name {
+    font-weight: 700;
+    font-size: 20px;
+    border-bottom: 2px solid rgb(163, 163, 163);
+}
+
+.h2-redirect {
+    font-weight: 400;
+}
+
+.filament-amount-input {
+    width: 100px;
+}
+
+.amount-form {
+    display: flex;
+    align-items: center;
+}
+
+.filament-color-blob {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    display: inline-block;
+}
+
+.block-div {
+    color: var(--text-color-dark);
+    margin: 0;
+    padding: 20px 24px;
+    border-radius: 20px;
+}
+
+.block-red {
+    background-color: var(--color-red);
+}
+
+.block-yellow {
+    background-color: var(--color-yellow);
+}
+
+.block-green {
+    background-color: var(--color-green);
+}
+
+.block-grey {
+    background-color: var(--color-grey);
+}
+
+.page-title {
+    margin-bottom: 28px;
+    font-size: 32px;
+}
+
+.section-title {
+    font-size: 20px;
+}
+
+.dashboard-filament-block {
+    margin-bottom: 20px;
+}
+
+.dashboard-bottom-block {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 20px;
+}
+
+.dashboard-bottom-block>section {
+    /* min-width: 300px; */
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.filament-list {
+    padding: 0;
+    margin: 0;
+    margin-left: 12px;
+    list-style: none;
+}
+
+.filament-list-item {
+    gap: 8px;
+}
+
+.filament-block-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.info-heading {
+    font-size: 16px;
+    border: 1px solid var(--primary-bg);
+    cursor: pointer;
+    padding: 4px;
+
+    box-shadow:
+        0 -2px 0 #000,
+        0 2px 0 #000,
+        -2px 0 0 #000,
+        2px 0 0 #000;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filament-edit-link {
+    transition: 350ms color ease-in-out;
+}
+
+.filament-edit-link:hover,
+.filament-edit-link:focus {
+    color: var(--color-red);
+}
+
+.auth-list {
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--primary-bg);
+}
+
+.sidebar {
+    background-color: var(--color-red);
+    border-radius: 20px;
+    width: fit-content;
+    overflow: hidden;
+}
+
+.sidebar .list-group-item {
+    background-color: transparent;
+    border: none;
+    padding: 12px 16px;
+}
+
+.sidebar-link {
+    color: var(--text-color-dark);
+    font-family: "Press Start 2P",
+        system-ui;
+    font-size: 12px;
+    line-height: 1.8;
+
+    transition: color 350ms ease-in-out;
+}
+
+.sidebar-link:hover,
+.sidebar-link:hover,
+.sidebar-link:active {
+    color: var(--color-hover);
+}
+
+.see-all-link {
+    margin-top: auto;
+    display: block;
+    font-family: "Press Start 2P",
+        system-ui;
+    font-size: 16px;
+
+    transition: color 350ms ease-in-out;
+}
+
+.see-all-link>a {
+    font-size: 12px;
+    transition: color 350ms ease-in-out;
+}
+
+.see-all-link>a:hover,
+.see-all-link>a:focus,
+.see-all-link>a:active {
+    color: var(--color-hover);
+}
+
+.filament-list-item {
+    display: flex;
+    align-items: center;
+}
+
+.greetings {
+    font-size: 24px;
+}
+
+
+/* ! BUTTON CSS */
+/* .logout-btn {
+    background-color: var(--base-green);
+    color: var(--text-dark);
+}
+
+.logout-btn:active {
+    background-color: var(--base-text-color);
+    color: var(--base-green);
+} */
+
+.login-btn,
+.signup-btn {
+    color: var(--primary-bg);
+    background-color: var(--text-color-light);
+}
+
+button,
+input[type="submit"],
+.filament-btn,
+.brand-btn,
+.printjob-btn,
+.printer-btn {
+    padding: 4px 16px;
+    margin: 8px;
+    text-decoration: none;
+
+    border: none;
+    box-shadow:
+        0 -4px 0 #000,
+        0 4px 0 #000,
+        -4px 0 0 #000,
+        4px 0 0 #000;
+
+    transition: transform 0.05s ease, box-shadow 0.05s ease;
+    cursor: pointer;
+}
+
+button:active,
+input[type="submit"]:active {
+    transform: translate(4px, 4px);
+
+    box-shadow:
+        0 -4px 0 #000,
+        0 4px 0 #000,
+        -4px 0 0 #000,
+        4px 0 0 #000;
+}
+
+.logout-btn {
+    color: var(--color-yellow);
+    box-shadow: 0 -4px 0 var(--color-yellow),
+        0 4px 0 var(--color-yellow),
+        -4px 0 0 var(--color-yellow),
+        4px 0 0 var(--color-yellow);
+}
+
+/*! input */
+.form-control {
+    padding: 8px 16px;
+    border: 3px solid var(--color-yellow);
+    color: var(--text-color-light);
+    font-size: 18px;
+    min-width: 240px;
+    max-width: 500px;
+
+    box-shadow: inset 6px 6px 0 -3px var(--shadow-color);
+    background: transparent;
+    outline: none;
+    transition: 0.1s ease;
+}
+
+.form-control:focus {
+    border-color: var(--color-red);
+    background: transparent;
+    color: var(--text-color-light);
+
+    box-shadow:
+        inset 6px 6px 0 -3px var(--color-red-shadow),
+        0 0 0 2px var(--color-red-shadow);
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 3px solid var(--color-yellow);
+    background: transparent;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--color-black);
+}
+
+/* input[type="checkbox"]:checked {
+    background-color: var(--color-red);
+} */
+
+input[type="checkbox"]:checked::after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: var(--color-yellow);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+input.form-control:-webkit-autofill,
+input.form-control:-webkit-autofill:hover,
+input.form-control:-webkit-autofill:focus,
+input.form-control:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+    -webkit-text-fill-color: var(--text-color-light) !important;
+    background-color: transparent !important;
+    transition: background-color 9999s ease-in-out 0s;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.signup-link,
+.filament-link,
+.brand-link,
+.printjob-link,
+.printer-link {
+    transition: 350ms color ease-in-out;
+}
+
+
+.signup-link:hover,
+.signup-link:focus,
+.filament-link:hover,
+.filament-link:focus,
+.filament-link:active,
+.brand-link:hover,
+.brand-link:focus,
+.brand-link:active,
+.printjob-link:hover,
+.printjob-link:focus,
+.printjob-link:active,
+.printer-link:hover,
+.printer-link:focus,
+.printer-link:active {
+    color: var(--color-red);
+}
+
+.filament-btn,
+.brand-btn,
+.printjob-btn,
+.printer-btn,
+.btn-black-bg {
+    border-color: var(--color-red);
+    color: var(--color-red);
+}
+
+.filament-btn,
+.brand-btn,
+.printjob-btn,
+.printer-btn,
+.btn-black-bg,
+.btn-black-bg:active,
+.btn-black-bg:focus,
+.btn-black-bg:hover {
+    box-shadow:
+        0 -4px 0 var(--color-red),
+        0 4px 0 var(--color-red),
+        -4px 0 0 var(--color-red),
+        4px 0 0 var(--color-red);
+    transition: transform 0.05s ease, box-shadow 0.05s ease;
+    cursor: pointer;
+}
+
+.filament-btn:active,
+.filament-btn:focus,
+.filament-btn:hover,
+.brand-btn:active,
+.brand-btn:focus,
+.brand-btn:hover,
+.printjob-btn:active,
+.printjob-btn:focus,
+.printjob-btn:hover,
+.printer-btn:active,
+.printer-btn:focus,
+.printer-btn:hover,
+.btn-black-bg,
+.btn-black-bg:active,
+.btn-black-bg:focus,
+.btn-black-bg:hover {
+    text-decoration: none;
+    transform: translate(4px, 4px);
+    color: var(--color-yellow);
+    box-shadow: 0 -4px 0 var(--color-yellow),
+        0 4px 0 var(--color-yellow),
+        -4px 0 0 var(--color-yellow),
+        4px 0 0 var(--color-yellow);
+}
+
+input[type="submit"],
+input[type="submit"]:active,
+input[type="submit"]:focus,
+input[type="submit"]:hover .btn-black-bg,
+.btn-black-bg:active,
+.btn-black-bg:focus,
+.btn-black-bg:hover {
+    box-shadow: 0 -4px 0 var(--color-yellow),
+        0 4px 0 var(--color-yellow),
+        -4px 0 0 var(--color-yellow),
+        4px 0 0 var(--color-yellow);
+}
+
+.btn-black-bg,
+.btn-black-bg:active,
+.btn-black-bg:focus,
+.btn-black-bg:hover {
+    box-shadow: 0 -4px 0 var(--color-red),
+        0 4px 0 var(--color-red),
+        -4px 0 0 var(--color-red),
+        4px 0 0 var(--color-red);
+}
+
+
+.brand-list {
+    padding-left: 28px;
+}
+
+.text-block-filament {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.filament-switch-btn {
+    padding: 6px;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.printer-table {
+    width: 100%;
+    border-collapse: collapse;
+    /* background: white; */
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.printer-table th,
+.printer-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--color-yellow);
+}
+
+
+.printer-actions {
+    display: flex;
+    gap: 20px;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.printjob-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.printjob-table th,
+.printjob-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--color-yellow);
+    vertical-align: middle;
+}
+
+
+.printjob-preview {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 24px;
+    margin-top: 24px;
+    align-items: start;
+}
+
+.detail-card,
+.image-card {
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.detail-card h2 {
+    margin-top: 0;
+    margin-bottom: 24px;
+}
+
+.detail-row {
+    margin-bottom: 24px;
+}
+
+.detail-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.filament-list {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.note-content {
+    white-space: pre-wrap;
+    line-height: 1.5;
+}
+
+.printjob-img {
+    width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+    display: block;
+}
+
+.image-placeholder {
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed var(--color-yellow);
+    border-radius: 12px;
+}
+
+@media (max-width: 900px) {
+    .detail-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.action-block {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+textarea.form-control {
+    height: 60px;
+}

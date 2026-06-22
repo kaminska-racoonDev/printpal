@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-headers">
+    <h1>Brand list</h1>
+    <a href="{% url 'printpal_app:brand-create' %}" class="brand-btn">Add brand</a>
+</div>
+{% if object_list %}
+    <ol class="list-group brand-list">
+        {% for brand in object_list %}
+            <li class="">
+                <a href="{% url 'printpal_app:brand-detail' brand.pk %}" class="brand-link">
+                    {{ brand.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ol>
+{% else %}
+<p>No filaments yet. <a href="{% url 'printpal_app:brand-create' %}" class="brand-link">Add new brand.</a></p>
+{% endif %}
+{% endblock %}
